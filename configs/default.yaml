@@ -1,0 +1,35 @@
+seed: 42
+data_dir: data
+source_domains: [FD001, FD002, FD003]
+target_domain: FD004
+window_size: 50
+window_stride: 5
+rul_cap: 125
+sensor_columns: [s2, s3, s4, s7, s8, s9, s11, s12, s13, s14, s15, s17, s20, s21]
+normalization: zscore
+target_support_units: 5
+target_support_ratio: null
+validation_fraction: 0.2
+model: meta_gnn
+hidden_dim: 128
+embedding_dim: 256
+gat_heads: 4
+self_attention_heads: 4
+dropout: 0.2
+graph_k: 5
+graph_method: cosine
+dtw_downsample: 5
+pair_aux_weight: 0.01
+batch_size: 64
+epochs: 50
+learning_rate: 0.001
+weight_decay: 0.0001
+meta_epochs: 100
+tasks_per_meta_batch: 3
+inner_steps: 5
+inner_lr: 0.001
+outer_lr: 0.05
+adapt_epochs: 10
+early_stopping_patience: 10
+device: auto
+output_dir: outputs
