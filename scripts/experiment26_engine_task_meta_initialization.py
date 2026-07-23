@@ -65,7 +65,7 @@ atomic_write_text = exp251.atomic_write_text
 resolve_device = exp251.resolve_device
 seed_everything = exp251.seed_everything
 
-SCRIPT_VERSION = "experiment26_engine_task_meta_initialization_v1"
+SCRIPT_VERSION = "experiment26_engine_task_meta_initialization_v2"
 PREPROCESSING = exp251.PREPROCESSING
 REGIMES = ("static_init", "supervised_budget", "fomaml_engine")
 
@@ -310,6 +310,14 @@ def train_fomaml(
             inner_optimizer.step()
             support_losses.append(float(support_loss.item()))
 
+        # Audit adaptation with Dropout disabled on both sides. The separate
+        # train-mode query below remains the actual FOMAML outer objective.
+        adapted.eval()
+        with torch.no_grad():
+            post_adaptation_query_loss = F.mse_loss(
+                adapted(qx).squeeze(-1), qy
+            )
+        adapted.train()
         inner_optimizer.zero_grad()
         query_loss = F.mse_loss(adapted(qx).squeeze(-1), qy)
         query_loss.backward()
@@ -323,9 +331,13 @@ def train_fomaml(
                 "pre_adaptation_query_loss": float(
                     pre_adaptation_query_loss.item()
                 ),
+                "post_adaptation_query_loss": float(
+                    post_adaptation_query_loss.item()
+                ),
                 "query_loss": float(query_loss.item()),
                 "adaptation_gain": float(
-                    pre_adaptation_query_loss.item() - query_loss.item()
+                    pre_adaptation_query_loss.item()
+                    - post_adaptation_query_loss.item()
                 ),
             }
         )

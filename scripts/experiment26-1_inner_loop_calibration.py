@@ -56,7 +56,7 @@ resolve_device = exp26.resolve_device
 seed_everything = exp26.seed_everything
 EXPECTED_OFFICIAL_TEST_ENGINES = exp26.EXPECTED_OFFICIAL_TEST_ENGINES
 
-SCRIPT_VERSION = "experiment26-1_inner_loop_calibration_v1"
+SCRIPT_VERSION = "experiment26-1_inner_loop_calibration_v2"
 
 
 def parse_args() -> argparse.Namespace:
@@ -212,6 +212,9 @@ def evaluate_setting(
             support_loss.backward()
             torch.nn.utils.clip_grad_norm_(adapted.parameters(), 5.0)
             optimizer.step()
+        # Query losses must use the same module mode. The predictor contains
+        # Dropout, so comparing base.eval() with adapted.train() is invalid.
+        adapted.eval()
         with torch.no_grad():
             post_query_loss = F.mse_loss(adapted(qx).squeeze(-1), qy)
 
@@ -420,6 +423,8 @@ def main() -> None:
         "target_train_files_accessed": False,
         "official_test_files_accessed": False,
         "outer_meta_training_run": False,
+        "query_evaluation_mode": "eval_before_and_after_inner_adaptation",
+        "support_adaptation_mode": "train",
         "initialization_checkpoint": str(initialization_checkpoint),
         "source_condition_counts": source_condition_counts,
         "episodes_per_setting": args.episodes_per_setting,
