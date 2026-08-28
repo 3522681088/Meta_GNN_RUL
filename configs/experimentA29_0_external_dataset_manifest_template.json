@@ -1,0 +1,48 @@
+{
+  "schema_version": "A29.0_external_dataset_manifest_v1",
+  "dataset_id": "REPLACE_WITH_EXTERNAL_DATASET_ID",
+  "dataset_version": "REPLACE_WITH_IMMUTABLE_VERSION",
+  "dataset_origin": "REPLACE_WITH_PROVIDER_OR_PUBLICATION",
+  "registered_question": "REPLACE_WITH_ONE_PROSPECTIVE_METHOD_QUESTION",
+  "candidate_family": "REPLACE_WITH_NEW_CANDIDATE_FAMILY_NOT_THE_CLOSED_A27_ROUTE",
+  "independence_statement": "This dataset and its frozen roles were not selected using A25.2b, A26.1, A27.1, A28.0, or official-test outcomes.",
+  "independent_of_experiments": [
+    "experimentA25_2b",
+    "experimentA26_1",
+    "experimentA27_1",
+    "experimentA28_0"
+  ],
+  "official_test_dataset": false,
+  "prior_outcomes_used_for_role_assignment": false,
+  "role_assignment_frozen": true,
+  "confirmation_sealed": true,
+  "closed_candidate_route_reused": false,
+  "forbidden_tuning_evidence": [
+    "A25.2b_confirmation",
+    "A27.1_selection",
+    "official_test"
+  ],
+  "files": [
+    {
+      "logical_name": "external_development_train",
+      "relative_path": "REPLACE/train_file.ext",
+      "role": "development_train",
+      "size_bytes": 0,
+      "sha256": "REPLACE_WITH_64_LOWERCASE_HEX_SHA256"
+    },
+    {
+      "logical_name": "external_development_selection",
+      "relative_path": "REPLACE/selection_file.ext",
+      "role": "development_selection",
+      "size_bytes": 0,
+      "sha256": "REPLACE_WITH_64_LOWERCASE_HEX_SHA256"
+    },
+    {
+      "logical_name": "external_sealed_confirmation",
+      "relative_path": "REPLACE/confirmation_file.ext",
+      "role": "sealed_confirmation",
+      "size_bytes": 0,
+      "sha256": "REPLACE_WITH_64_LOWERCASE_HEX_SHA256"
+    }
+  ]
+}
